@@ -11,16 +11,25 @@
 		loading = true
 		error = ''
 
+		console.log('Sign-in attempt with Supabase client')
 		const { data, error: signInError } = await supabase.auth.signInWithPassword({
 			email,
 			password
 		})
 
+		console.log("Supabase sign-in response:", data)
+		console.log("Supabase sign-in error:", signInError)
+
+		// Check cookies after sign-in
+		console.log('Cookies after sign-in:', document.cookie)
+
 		loading = false
 
 		if (signInError) {
 			error = signInError.message
+			console.error('Sign-in failed:', signInError)
 		} else if (data.user) {
+			console.log('Sign-in successful, redirecting')
 			goto('/')
 		}
 	}
